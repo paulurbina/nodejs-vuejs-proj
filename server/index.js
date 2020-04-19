@@ -3,6 +3,7 @@ import Mongoose from 'mongoose'
 import config from '@config'
 import v1Router from '@routes'
 import path from 'path'
+import BodyParser from 'body-parser'
 
 import Webpack from 'webpack'
 import WebpackConfig from '../webpack.config'
@@ -21,6 +22,8 @@ Mongoose.connect(
 )
 
 const app = Express()
+
+app.use(BodyParser.json())
 
 const compiler = Webpack(WebpackConfig)
 
