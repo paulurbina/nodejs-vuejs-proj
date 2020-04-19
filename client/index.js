@@ -5,9 +5,15 @@ import router from './routes'
 import Router from 'vue-router'
 import Main from './pages/Main.vue'
 
-import TextInput from '@/client/components/TextInput.vue'
+// import  VeeValidate  from "vee-validate";
+import * as Validator from 'vee-validate';
+import TextInput from '@components/TextInput.vue'
 
 Vue.use(Router)
+Vue.use(Validator, {
+    inject: true
+});
+
 
 Vue.component('text-input', TextInput)
 

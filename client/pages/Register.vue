@@ -3,12 +3,35 @@
         <div class="max-w-xs mx-auto h-12">
             <h1 class="text-center text-lg text-orange-600">Register</h1>
             <div class="w-full rounded-sm bg-white shadow mt-5 p-8">
-                <text-input v-model="model.name" placeholder="Enter your name" />
-                <text-input v-model="model.email" placeholder="Enter your email" />
-                <text-input type="password" v-model="model.password" placeholder="Enter your password" />
+                <text-input
+                    name="name"
+                    :value="model.name"
+                    v-model="model.name"
+                    v-validate="'required'"
+                    placeholder="Enter your name"
+                    :error="errors.first('name')"
+                />
+                <text-input
+                    name="email"
+                    :value="model.email"
+                    v-model="model.email"
+                    v-validate="'required|email'"
+                    placeholder="Enter your email"
+                    :error="errors.first('email')"
+                />
+                <text-input
+                    type="password"
+                    name="password"
+                    :value="model.password"
+                    v-model="model.password"
+                    v-validate="'required|min:6'"
+                    :error="errors.first('password')"
+                    placeholder="Enter your password"
+                />
 
                 <button
                     class="w-full text-sm mt-3 py-4 bg-green-400 text-white rounded-sm focus:outline-none hover:bg-green-600"
+                    @click="register"
                 >Sign Up</button>
             </div>
         </div>
@@ -24,6 +47,15 @@ export default {
             email: '',
             password: '',
         }
-    })
+    }),
+    methods:{
+        register() {
+            this.$validator.validate().then(isValid => {
+                if (! isValid) {
+                    return
+                }
+            })
+        }
+    }
 }
 </script>
