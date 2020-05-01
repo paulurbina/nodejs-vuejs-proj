@@ -29,10 +29,12 @@
                     placeholder="Enter your password"
                 />
 
-                <button
-                    class="w-full text-sm mt-3 py-4 bg-green-400 text-white rounded-sm focus:outline-none hover:bg-green-600"
+                <btn
+                    label="Sign Up"
+                    :disabled="loading"
+                    :loading="loading"
                     @click="register"
-                >Sign Up</button>
+                 />
             </div>
         </div>
     </div>
@@ -44,6 +46,7 @@ import { POST_REGISTER } from '@store/auth/actions'
 
 export default {
     data: () => ({
+        loading: false,
         model: {
             name: '',
             email: '',
@@ -57,8 +60,18 @@ export default {
                     return
                 }
 
+                this.toggleLoading()
+
                 this.$store.dispatch(POST_REGISTER, this.model)
+                    .then(() => {
+                        this.toggleLoading()
+
+                        this.$router.push('/')
+                    })
             })
+        },
+        toggleLoading() {
+            this.loading = ! this.loading
         }
     }
 }
