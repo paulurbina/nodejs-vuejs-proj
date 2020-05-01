@@ -1,5 +1,6 @@
 import Express from 'express'
 import Mongoose from 'mongoose'
+import Morgan from 'morgan'
 import config from '@config'
 import v1Router from '@routes'
 import path from 'path'
@@ -23,6 +24,9 @@ Mongoose.connect(
 
 const app = Express()
 
+app.use(Morgan('dev'))
+
+app.use(BodyParser.urlencoded({ extended: true }))
 app.use(BodyParser.json())
 
 const compiler = Webpack(WebpackConfig)
@@ -31,6 +35,7 @@ app.use(WebpackDevMiddleware(compiler, {
     hot: true,
     publicPath: WebpackConfig.output.publicPath
 }))
+
 app.use(WebpackHotMiddleware(compiler))
 
 app.use(v1Router)
