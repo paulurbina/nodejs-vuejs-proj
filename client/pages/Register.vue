@@ -43,6 +43,7 @@
 <script>
 
 import { POST_REGISTER } from '@store/auth/actions'
+import { SET_AUTH } from '@store/auth/actions'
 
 export default {
     data: () => ({
@@ -64,10 +65,24 @@ export default {
                 this.toggleLoading()
 
                 this.$store.dispatch(POST_REGISTER, this.model)
-                    .then(() => {
+                    .then(response => {
                         this.toggleLoading()
 
+                        localStorage.setItem('auth', JSON.stringify(response.data))
+
+                        this.$store.commit(SET_AUTH, response.data)
+
                         this.$router.push('/')
+                    })
+                    .catch(error => {
+                        this.toggleLoading()
+
+                        Object.keys(error.response.data).forEach(field => {
+                            this.errors.add({
+                                [field]: error.response.data[field]
+                            })
+                        })
+
                     })
             })
         },
