@@ -56,7 +56,8 @@ export default {
     methods:{
         register() {
             this.$validator.validate().then(isValid => {
-                if (! isValid) {
+                
+                if (!isValid) {
                     return
                 }
 

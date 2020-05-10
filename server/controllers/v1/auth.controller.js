@@ -1,17 +1,23 @@
 import User from '@models/User'
+import config from '@config'
+import jwt from 'jsonwebtoken'
 
 const login = (req, res) => {}
 
 const register = async (req, res) => {
     
     const { name, email, password } = req.body
-    console.log(name, email, password);
     
     const user = await User.create({
         name, email, password
     })
 
-    return res.status(201).json({ user })
+    // const token = user.generateToken()
+
+    const token = jwt.sign({ id: user.id }, config.jwtSecret)
+
+
+    return res.status(201).json({ user, token })
 
 }
 
